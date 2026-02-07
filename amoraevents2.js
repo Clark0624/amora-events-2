@@ -4,19 +4,25 @@
 // ==================== SMOOTH SCROLL BEHAVIOR ====================
 document.querySelectorAll('.smooth-scroll').forEach(link => {
     link.addEventListener('click', function (e) {
-        e.preventDefault();
-        const targetId = this.getAttribute('href');
-        const targetElement = document.querySelector(targetId);
-        
-        if (targetElement) {
-            const offsetTop = targetElement.offsetTop - 80; // Adjust for fixed navbar
-            window.scrollTo({
-                top: offsetTop,
-                behavior: 'smooth'
-            });
+        const href = this.getAttribute('href');
+
+        // ✅ Only smooth-scroll for SAME-PAGE anchors
+        if (href.startsWith('#')) {
+            e.preventDefault();
+            const targetElement = document.querySelector(href);
+
+            if (targetElement) {
+                const offsetTop = targetElement.offsetTop - 80;
+                window.scrollTo({
+                    top: offsetTop,
+                    behavior: 'smooth'
+                });
+            }
         }
+        // ❗ If href is index.html#home or /#services → allow normal navigation
     });
 });
+
 
 // ==================== NAVBAR SCROLL EFFECT ====================
 const navbar = document.querySelector('.navbar-custom');
